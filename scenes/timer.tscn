@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dr4cy28ny8fcw"]
+[gd_scene load_steps=3 format=3 uid="uid://dr4cy28ny8fcw"]
 
 [ext_resource type="Script" uid="uid://bx7eghumerhpc" path="res://scenes/timer.gd" id="1_srplv"]
+[ext_resource type="PackedScene" uid="uid://dm6kqc0pkg30t" path="res://scenes/number_clock.tscn" id="2_5lxq6"]
 
 [node name="Timer" type="Control"]
 layout_mode = 3
@@ -9,137 +10,86 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_srplv")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="Clock" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -290.5
+offset_right = 290.5
+offset_bottom = 205.0
+grow_horizontal = 2
+
+[node name="Hours" parent="Clock" instance=ExtResource("2_5lxq6")]
+layout_mode = 2
+selected_type = 2
+
+[node name="Label" type="Label" parent="Clock"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 150
+text = ":"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Minutes" parent="Clock" instance=ExtResource("2_5lxq6")]
+layout_mode = 2
+selected_type = 1
+
+[node name="Label2" type="Label" parent="Clock"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 150
+text = ":"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Seconds" parent="Clock" instance=ExtResource("2_5lxq6")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -263.5
 offset_right = 263.5
-offset_bottom = 273.0
+offset_bottom = 46.0
 grow_horizontal = 2
+theme_override_constants/margin_top = 15
 
-[node name="H2" type="Label" parent="HBoxContainer"]
+[node name="ButtonsUp" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 200
-text = "9"
+theme_override_constants/separation = 153
 
-[node name="H1" type="Label" parent="HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/ButtonsUp"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 200
-text = "9"
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "^"
 
-[node name="Dot" type="Label" parent="HBoxContainer"]
+[node name="Button2" type="Button" parent="MarginContainer/ButtonsUp"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 200
-text = ":"
+text = "^"
 
-[node name="M2" type="Label" parent="HBoxContainer"]
+[node name="Button3" type="Button" parent="MarginContainer/ButtonsUp"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 200
-text = "9"
+text = "^"
 
-[node name="M1" type="Label" parent="HBoxContainer"]
+[node name="Button4" type="Button" parent="MarginContainer/ButtonsUp"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 200
-text = "9"
+text = "^"
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 420.0
-offset_top = 244.0
-offset_right = 460.0
-offset_bottom = 284.0
-metadata/_edit_group_ = true
-
-[node name="Button" type="Button" parent="Control"]
+[node name="ButtonsDown" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 18.0
-offset_bottom = 31.0
-text = "+"
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Button2" type="Button" parent="Control"]
+[node name="PlayButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 28.0
-offset_right = 46.0
-offset_bottom = 31.0
-text = "-"
-
-[node name="Control2" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 543.0
-offset_top = 243.0
-offset_right = 583.0
-offset_bottom = 283.0
-metadata/_edit_group_ = true
-
-[node name="Button" type="Button" parent="Control2"]
-layout_mode = 0
-offset_right = 18.0
-offset_bottom = 31.0
-text = "+"
-
-[node name="Button2" type="Button" parent="Control2"]
-layout_mode = 0
-offset_left = 28.0
-offset_right = 46.0
-offset_bottom = 31.0
-text = "-"
-
-[node name="Control3" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 243.0
-offset_top = 240.0
-offset_right = 283.0
-offset_bottom = 280.0
-metadata/_edit_group_ = true
-
-[node name="Button" type="Button" parent="Control3"]
-layout_mode = 0
-offset_right = 18.0
-offset_bottom = 31.0
-text = "+"
-
-[node name="Button2" type="Button" parent="Control3"]
-layout_mode = 0
-offset_left = 28.0
-offset_right = 46.0
-offset_bottom = 31.0
-text = "-"
-
-[node name="Control4" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 121.0
-offset_top = 240.0
-offset_right = 161.0
-offset_bottom = 280.0
-metadata/_edit_group_ = true
-
-[node name="Button" type="Button" parent="Control4"]
-layout_mode = 0
-offset_right = 18.0
-offset_bottom = 31.0
-text = "+"
-
-[node name="Button2" type="Button" parent="Control4"]
-layout_mode = 0
-offset_left = 28.0
-offset_right = 46.0
-offset_bottom = 31.0
-text = "-"
-
-[node name="Button" type="Button" parent="."]
 offset_left = 293.0
 offset_top = 295.0
 offset_right = 428.0

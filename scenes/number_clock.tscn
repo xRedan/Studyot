@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm6kqc0pkg30t"]
+
+[ext_resource type="Script" uid="uid://cssckjln60lxt" path="res://scenes/number_clock.gd" id="1_v2pim"]
+
+[node name="NumberClock" type="Control"]
+custom_minimum_size = Vector2(176, 205)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v2pim")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(176, 205)
+layout_mode = 1
+offset_right = 176.0
+offset_bottom = 205.0
+
+[node name="Number2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 150
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Number1" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 150
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
