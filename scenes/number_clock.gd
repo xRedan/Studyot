@@ -26,9 +26,12 @@ class Clock:
 	func get_second_str() -> String:
 		return "%02d" % second
 
-	func get_clock() -> String:
+	func get_clock_to_str() -> String:
 		return get_hour_str() + ":" + get_minute_str() + ":" + get_second_str()
-	
+
+	func get_clock_to_sec() -> int:
+		return (hour * 3600) + (minute * 60) + second
+
 	func _set_hour(value) -> void:
 		hour = wrap(value, 0, MAX_HOURS)
 		time_changed.emit()
@@ -41,7 +44,7 @@ class Clock:
 		second = wrap(value, 0, MAX_SECONDS)
 		time_changed.emit()
 
-var clock_values: Clock = Clock.new(60, 12, 30)
+var clock_values: Clock = Clock.new(0, 0, 0)
 
 func update_time(type: String, value: int) -> void:
 	match type:

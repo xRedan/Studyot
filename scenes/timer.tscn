@@ -13,57 +13,123 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_srplv")
 
-[node name="Clock" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="NumberClock" parent="VBoxContainer/Panel" instance=ExtResource("2_5lxq6")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-grow_horizontal = 2
+anchor_bottom = 0.0
+offset_left = -232.0
+offset_right = 232.0
+offset_bottom = 32.0
+grow_vertical = 1
 
-[node name="NumberClock" parent="Clock" instance=ExtResource("2_5lxq6")]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="ButtonUp" type="MarginContainer" parent="VBoxContainer/Panel"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -178.5
-offset_right = 178.5
-offset_bottom = 46.0
+offset_left = -232.0
+offset_right = 232.0
+offset_bottom = 47.0
 grow_horizontal = 2
-theme_override_constants/margin_top = 15
+theme_override_constants/margin_top = 5
 
-[node name="ButtonsUp" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 153
-
-[node name="Button" type="Button" parent="MarginContainer/ButtonsUp"]
+[node name="ButtonsUp" type="HBoxContainer" parent="VBoxContainer/Panel/ButtonUp"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "^"
+theme_override_constants/separation = 205
 
-[node name="Button3" type="Button" parent="MarginContainer/ButtonsUp"]
+[node name="H_up" type="Button" parent="VBoxContainer/Panel/ButtonUp/ButtonsUp"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
 text = "^"
+icon_alignment = 1
 
-[node name="Button4" type="Button" parent="MarginContainer/ButtonsUp"]
+[node name="M_up" type="Button" parent="VBoxContainer/Panel/ButtonUp/ButtonsUp"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 17
 text = "^"
+icon_alignment = 1
 
-[node name="ButtonsDown" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="S_up" type="Button" parent="VBoxContainer/Panel/ButtonUp/ButtonsUp"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "^"
+icon_alignment = 1
 
-[node name="PlayButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 293.0
-offset_top = 295.0
-offset_right = 428.0
-offset_bottom = 394.0
+[node name="ButtonDown" type="MarginContainer" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -232.0
+offset_top = -47.0
+offset_right = 232.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_top = 5
+
+[node name="ButtonsUp" type="HBoxContainer" parent="VBoxContainer/Panel/ButtonDown"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 205
+
+[node name="H_down" type="Button" parent="VBoxContainer/Panel/ButtonDown/ButtonsUp"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "^"
+icon_alignment = 1
+
+[node name="M_down" type="Button" parent="VBoxContainer/Panel/ButtonDown/ButtonsUp"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "^"
+icon_alignment = 1
+
+[node name="S_down" type="Button" parent="VBoxContainer/Panel/ButtonDown/ButtonsUp"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "^"
+icon_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="PlayButton" type="Button" parent="VBoxContainer/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "PLAY"
 
+[node name="StopButton" type="Button" parent="VBoxContainer/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "STOP"
+
 [node name="Timer" type="Timer" parent="."]
+wait_time = 120.0
 one_shot = true
+ignore_time_scale = true
