@@ -18,36 +18,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -290.5
-offset_right = 290.5
-offset_bottom = 205.0
 grow_horizontal = 2
 
-[node name="Hours" parent="Clock" instance=ExtResource("2_5lxq6")]
-layout_mode = 2
-selected_type = 2
-
-[node name="Label" type="Label" parent="Clock"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 150
-text = ":"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Minutes" parent="Clock" instance=ExtResource("2_5lxq6")]
-layout_mode = 2
-selected_type = 1
-
-[node name="Label2" type="Label" parent="Clock"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 150
-text = ":"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Seconds" parent="Clock" instance=ExtResource("2_5lxq6")]
+[node name="NumberClock" parent="Clock" instance=ExtResource("2_5lxq6")]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -55,8 +28,8 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -263.5
-offset_right = 263.5
+offset_left = -178.5
+offset_right = 178.5
 offset_bottom = 46.0
 grow_horizontal = 2
 theme_override_constants/margin_top = 15
@@ -69,10 +42,6 @@ theme_override_constants/separation = 153
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "^"
-
-[node name="Button2" type="Button" parent="MarginContainer/ButtonsUp"]
-layout_mode = 2
 text = "^"
 
 [node name="Button3" type="Button" parent="MarginContainer/ButtonsUp"]
