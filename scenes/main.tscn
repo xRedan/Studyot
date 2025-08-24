@@ -90,9 +90,7 @@ custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-max_value = 43200.0
-step = 30.0
-tick_count = 9
+tick_count = 3
 ticks_on_borders = true
 
 [node name="HSeparator5" type="HSeparator" parent="VBoxContainer"]

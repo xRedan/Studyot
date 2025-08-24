@@ -1,8 +1,6 @@
 class_name NumberClock
 extends Control
 
-@export var font_color: Color
-
 class Clock:
 	signal time_changed
 	
@@ -46,39 +44,58 @@ class Clock:
 		second = wrap(value, 0, MAX_SECONDS)
 		time_changed.emit()
 
-var clock_values: Clock = Clock.new(0, 0, 0)
+@export var font_color: Color
 
-func update_time(type: String, value: int) -> void:
+enum TimeType {HOUR, MINUTE, SECOND}
+var clock_values: Clock = Clock.new(0, 0, 0)
+var selected_timer: TimeType = TimeType.SECOND
+
+func update_time(type: TimeType, value: int) -> void:
 	match type:
-		"hour":
+		TimeType.HOUR:
 			clock_values.hour = value
-		"minute":
+		TimeType.MINUTE:
 			clock_values.minute = value
-		"second":
+		TimeType.SECOND:
 			clock_values.second = value
 
 func update_time_sec(tot_sec: int) -> void:
 	var _sec = tot_sec % 60
 	var _min = (tot_sec / 60) % 60
 	var _ore = tot_sec / 3600
-	update_time("hour", _ore)
-	update_time("minute", _min)
-	update_time("second", _sec)
+	update_time(TimeType.HOUR, _ore)
+	update_time(TimeType.MINUTE, _min)
+	update_time(TimeType.SECOND, _sec)
 
 func _ready() -> void:
 	%Hours.add_theme_color_override("font_color", font_color)
-	%Hours.gui_input.connect(_on_gui_input_entered)
 	%Minutes.add_theme_color_override("font_color", font_color)
 	%Seconds.add_theme_color_override("font_color", font_color)
 	%Points.add_theme_color_override("font_color", font_color)
 	%Points2.add_theme_color_override("font_color", font_color)
+	%Hours.gui_input.connect(_on_hours_input_entered)
+	%Minutes.gui_input.connect(_on_minutes_input_entered)
+	%Seconds.gui_input.connect(_on_seconds_input_entered)
 	clock_values.time_changed.connect(_on_time_changed)
 	clock_values.time_changed.emit()
 
-func _on_gui_input_entered(event: InputEvent) -> void:
+func _on_hours_input_entered(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 			print("pressed")
+			selected_timer = TimeType.HOUR
+
+func _on_minutes_input_entered(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+			print("pressed")
+			selected_timer = TimeType.MINUTE
+
+func _on_seconds_input_entered(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+			print("pressed")
+			selected_timer = TimeType.SECOND
 
 func _on_time_changed() -> void:
 	%Hours.text = clock_values.get_hour_str()
