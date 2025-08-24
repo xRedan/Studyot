@@ -1,6 +1,8 @@
 class_name NumberClock
 extends Control
 
+@export var font_color: Color
+
 class Clock:
 	signal time_changed
 	
@@ -55,10 +57,29 @@ func update_time(type: String, value: int) -> void:
 		"second":
 			clock_values.second = value
 
+func update_time_sec(tot_sec: int) -> void:
+	var _sec = tot_sec % 60
+	var _min = (tot_sec / 60) % 60
+	var _ore = tot_sec / 3600
+	update_time("hour", _ore)
+	update_time("minute", _min)
+	update_time("second", _sec)
+
 func _ready() -> void:
+	%Hours.add_theme_color_override("font_color", font_color)
+	%Hours.gui_input.connect(_on_gui_input_entered)
+	%Minutes.add_theme_color_override("font_color", font_color)
+	%Seconds.add_theme_color_override("font_color", font_color)
+	%Points.add_theme_color_override("font_color", font_color)
+	%Points2.add_theme_color_override("font_color", font_color)
 	clock_values.time_changed.connect(_on_time_changed)
 	clock_values.time_changed.emit()
-	
+
+func _on_gui_input_entered(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+			print("pressed")
+
 func _on_time_changed() -> void:
 	%Hours.text = clock_values.get_hour_str()
 	%Minutes.text = clock_values.get_minute_str()

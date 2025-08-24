@@ -24,7 +24,7 @@ func _ready() -> void:
 	stop_button.pressed.connect(_stop_button_pressed)
 
 func _process(delta: float) -> void:
-	pass
+	print(timer.time_left)
 
 func _play_button_pressed() -> void:
 	timer.start(number_clock.clock_values.get_clock_to_sec())
