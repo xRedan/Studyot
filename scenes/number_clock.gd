@@ -61,8 +61,8 @@ func update_time(type: TimeType, value: int) -> void:
 
 func update_time_sec(tot_sec: int) -> void:
 	var _sec = tot_sec % 60
-	var _min = (tot_sec / 60) % 60
-	var _ore = tot_sec / 3600
+	var _min = floori(tot_sec / 60.0) % 60
+	var _ore = floori(tot_sec / 3600.0)
 	update_time(TimeType.HOUR, _ore)
 	update_time(TimeType.MINUTE, _min)
 	update_time(TimeType.SECOND, _sec)

@@ -11,9 +11,16 @@ config_version=5
 [application]
 
 config/name="StudyApp"
+config/version="0.1"
+run/main_scene="uid://d0lnfbtyifthb"
 config/features=PackedStringArray("4.4", "Mobile")
+run/low_processor_mode=true
 boot_splash/show_image=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+RdnEffectsManager="*res://autoloads/effects_manager/rdn_effects_manager.tscn"
 
 [display]
 

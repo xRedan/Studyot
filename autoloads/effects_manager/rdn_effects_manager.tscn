@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://b4kry3pax8ap5"]
+
+[ext_resource type="Script" uid="uid://dwdlu4mkeauy" path="res://autoloads/effects_manager/rdn_effects_manager.gd" id="1_0x65p"]
+[ext_resource type="Shader" uid="uid://bxhgy47oq5msd" path="res://resources/shaders/blur_effect.gdshader" id="2_kq35l"]
+[ext_resource type="Shader" uid="uid://dm3xlwqegtcp7" path="res://resources/shaders/blur_vignette_effect.gdshader" id="3_enerf"]
+
+[sub_resource type="Gradient" id="Gradient_igxtm"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6a1y6"]
+gradient = SubResource("Gradient_igxtm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6a1y6"]
+shader = ExtResource("2_kq35l")
+shader_parameter/blur_radius = 8
+shader_parameter/Darkness = 0.0
+shader_parameter/R = 0.0
+shader_parameter/G = 0.0
+shader_parameter/B = 0.0
+shader_parameter/blur_amount = 2.0
+shader_parameter/opacity_amount = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_846e0"]
+shader = ExtResource("3_enerf")
+shader_parameter/blur_radius = 0.2
+shader_parameter/blur_amount = 1.0
+shader_parameter/blur_inner = 0.6
+shader_parameter/blur_outer = 0.66
+shader_parameter/opacity_amount = 1.0
+
+[node name="RDNEffectsManager" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_0x65p")
+
+[node name="Effects" type="Node" parent="."]
+
+[node name="copy_me" type="TextureRect" parent="Effects" groups=["effects"]]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_6a1y6")
+metadata/_edit_lock_ = true
+
+[node name="Blur" type="TextureRect" parent="Effects" groups=["effects"]]
+visible = false
+material = SubResource("ShaderMaterial_6a1y6")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_6a1y6")
+metadata/_edit_lock_ = true
+
+[node name="BlurVignette" type="TextureRect" parent="Effects" groups=["effects"]]
+visible = false
+material = SubResource("ShaderMaterial_846e0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_6a1y6")
+metadata/_edit_lock_ = true
