@@ -1,72 +1,96 @@
 extends Control
 
-@onready var number_clock: NumberClock = $VBoxContainer/NumberClock
+signal stopwatch_started
+signal stopwatch_paused
+signal stopwatch_stopped
 
+enum StopwatchState {
+	IDLE,
+	ACTIVE,
+	PAUSED,
+}
+
+static var stopwatch_status: StopwatchState = StopwatchState.IDLE
+
+## Stopwatch things
+@onready var stopwatch_text: NumberClock = $VBoxContainer/NumberClock
+@onready var stopwatch: Timer = %Stopwatch
+
+## Buttons
 @onready var play_button: TextureButton = $VBoxContainer/Buttons/PlayButton
 @onready var pause_button: TextureButton = $VBoxContainer/Buttons/PauseButton
 @onready var reset_button: TextureButton = $VBoxContainer/Buttons/ResetButton
 
-@onready var stopwatch: Timer = %Stopwatch
-
-var timer_started: bool:
-	set = _set_timer_started
-
 
 func _ready() -> void:
-#region New Code Region
+	## Variables
+	
+	## Stopwatch
+	stopwatch.timeout.connect(_on_stopwatch_timeout)
+	## Internal Signals
+	stopwatch_started.connect(_on_stopwatch_started)
+	stopwatch_paused.connect(_on_stopwatch_pause)
+	stopwatch_stopped.connect(_on_stopwatch_stopped)
 	## Buttons
 	play_button.pressed.connect(_on_play_button_pressed)
 	pause_button.pressed.connect(_on_pause_button_pressed)
 	reset_button.pressed.connect(_on_reset_button_pressed)
-	## Timers
-	stopwatch.timeout.connect(_on_stopwatch_timeout)
-#endregion
-	timer_started = false
 
-
-func _set_timer_started(value: bool) -> void:
-	if value:
-		play_button.disabled = true
-		pause_button.disabled = false
-	else:
-		play_button.disabled = false
-		pause_button.disabled = true
-	timer_started = value
+func _process(_delta: float) -> void:
+	match stopwatch_status:
+		StopwatchState.IDLE:
+			play_button.disabled = false
+			pause_button.disabled = true
+			reset_button.disabled = true
+		
+		StopwatchState.ACTIVE:
+			play_button.disabled = true
+			pause_button.disabled = false
+			reset_button.disabled = false
+		
+		StopwatchState.PAUSED:
+			play_button.disabled = false
+			pause_button.disabled = true
+			reset_button.disabled = false
 
 
 func _on_stopwatch_timeout() -> void:
-	if timer_started:
-		number_clock.update_time_sec(number_clock.clock_values.get_clock_to_sec() + 1)
-		print(number_clock.clock_values.get_clock_to_str())
-	else:
-		stopwatch.stop()
-		timer_started = false
+	stopwatch_text.add_time_sec(stopwatch.wait_time)
 
+
+func _on_stopwatch_started() -> void:
+	stopwatch.paused = false
+	stopwatch.start()
+
+
+func _on_stopwatch_pause() -> void:
+	stopwatch.paused = true
+
+
+func _on_stopwatch_stopped() -> void:
+	stopwatch.stop()
+	stopwatch_text.update_time_sec(0)
+
+
+#region BUTTONS SIGNALS
 
 ## PLAY BUTTON PRESSED ##
 func _on_play_button_pressed() -> void:
 	print("PLAY BUTTON PRESSED")
-	if not stopwatch.paused:
-		print("TIMER STARTED")
-		timer_started = true
-		stopwatch.start()
-	else:
-		print("PAUSED RESUME")
-		timer_started = true
-		stopwatch.paused = false
+	stopwatch_started.emit()
+	stopwatch_status = StopwatchState.ACTIVE
 
 
 ## PAUSE BUTTON PRESSED ##
 func _on_pause_button_pressed() -> void:
 	print("PAUSE BUTTON PRESSED")
-	timer_started = false
-	stopwatch.paused = true
+	stopwatch_paused.emit()
+	stopwatch_status = StopwatchState.PAUSED
 
 
 ## RESET BUTTON PRESSED ##
 func _on_reset_button_pressed() -> void:
 	print("RESET BUTTON PRESSED")
-	stopwatch.stop()
-	stopwatch.paused = false
-	timer_started = false
-	number_clock.update_time_sec(0)
+	stopwatch_stopped.emit()
+	stopwatch_status = StopwatchState.IDLE
+#endregion

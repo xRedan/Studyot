@@ -4,6 +4,10 @@ extends Control
 class Clock:
 	signal time_changed
 	
+	signal _sec_changed(sec: int)
+	signal _min_changed(min: int)
+	signal _hour_changed(hour: int)
+	
 	const MAX_HOURS = 100
 	const MAX_MINUTES = 60
 	const MAX_SECONDS = 60
@@ -16,7 +20,11 @@ class Clock:
 		hour = _hour
 		minute = _minute
 		second = _second
-	
+		_sec_changed.connect(_on_sec_changed)
+		_min_changed.connect(_on_min_changed)
+		_hour_changed.connect(_on_hour_changed)
+
+
 	func get_hour_str() -> String:
 		return "%02d" % hour
 	
@@ -32,17 +40,33 @@ class Clock:
 	func get_clock_to_sec() -> int:
 		return (hour * 3600) + (minute * 60) + second
 
-	func _set_hour(value) -> void:
+	func _set_hour(value: int) -> void:
+		_hour_changed.emit(value)
 		hour = wrap(value, 0, MAX_HOURS)
 		time_changed.emit()
 	
-	func _set_minute(value) -> void:
+	func _set_minute(value: int) -> void:
+		_min_changed.emit(value)
 		minute = wrap(value, 0, MAX_MINUTES)
 		time_changed.emit()
 	
-	func _set_second(value) -> void:
+	func _set_second(value: int) -> void:
+		_sec_changed.emit(value)
 		second = wrap(value, 0, MAX_SECONDS)
 		time_changed.emit()
+	
+	func _on_sec_changed(sec: int) -> void:
+		if sec >= MAX_SECONDS:
+			minute += 1
+	
+	func _on_min_changed(min: int) -> void:
+		if min >= MAX_MINUTES:
+			hour += 1
+	
+	func _on_hour_changed(hour: int) -> void:
+		if hour >= MAX_HOURS:
+			hour = 0
+
 
 @export var font_color: Color
 
@@ -66,6 +90,10 @@ func update_time_sec(tot_sec: int) -> void:
 	update_time(TimeType.HOUR, _ore)
 	update_time(TimeType.MINUTE, _min)
 	update_time(TimeType.SECOND, _sec)
+
+func add_time_sec(_sec: int) -> void:
+	update_time(TimeType.SECOND, clock_values.second + _sec)
+
 
 func _ready() -> void:
 	%Hours.add_theme_color_override("font_color", font_color)
