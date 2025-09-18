@@ -55,16 +55,16 @@ class Clock:
 		second = wrap(value, 0, MAX_SECONDS)
 		time_changed.emit()
 	
-	func _on_sec_changed(sec: int) -> void:
-		if sec >= MAX_SECONDS:
+	func _on_sec_changed(_sec: int) -> void:
+		if _sec >= MAX_SECONDS:
 			minute += 1
 	
-	func _on_min_changed(min: int) -> void:
-		if min >= MAX_MINUTES:
+	func _on_min_changed(_min: int) -> void:
+		if _min >= MAX_MINUTES:
 			hour += 1
 	
-	func _on_hour_changed(hour: int) -> void:
-		if hour >= MAX_HOURS:
+	func _on_hour_changed(_hour: int) -> void:
+		if _hour >= MAX_HOURS:
 			hour = 0
 
 

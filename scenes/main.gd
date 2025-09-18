@@ -21,10 +21,11 @@ static var stopwatch_status: StopwatchState = StopwatchState.IDLE
 @onready var pause_button: TextureButton = $VBoxContainer/Buttons/PauseButton
 @onready var reset_button: TextureButton = $VBoxContainer/Buttons/ResetButton
 
+var first_press_only: bool
 
 func _ready() -> void:
 	## Variables
-	
+	first_press_only = true
 	## Stopwatch
 	stopwatch.timeout.connect(_on_stopwatch_timeout)
 	## Internal Signals
@@ -35,6 +36,7 @@ func _ready() -> void:
 	play_button.pressed.connect(_on_play_button_pressed)
 	pause_button.pressed.connect(_on_pause_button_pressed)
 	reset_button.pressed.connect(_on_reset_button_pressed)
+
 
 func _process(_delta: float) -> void:
 	match stopwatch_status:
@@ -55,7 +57,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_stopwatch_timeout() -> void:
-	stopwatch_text.add_time_sec(stopwatch.wait_time)
+	stopwatch_text.add_time_sec(int(stopwatch.wait_time))
 
 
 func _on_stopwatch_started() -> void:
@@ -77,6 +79,9 @@ func _on_stopwatch_stopped() -> void:
 ## PLAY BUTTON PRESSED ##
 func _on_play_button_pressed() -> void:
 	print("PLAY BUTTON PRESSED")
+	if first_press_only:
+		SignalBus.data_init.emit($VBoxContainer/TextEdit.text)
+		first_press_only = false
 	stopwatch_started.emit()
 	stopwatch_status = StopwatchState.ACTIVE
 
@@ -91,6 +96,8 @@ func _on_pause_button_pressed() -> void:
 ## RESET BUTTON PRESSED ##
 func _on_reset_button_pressed() -> void:
 	print("RESET BUTTON PRESSED")
+	first_press_only = true
+	SignalBus.data_end.emit(stopwatch_text.clock_values.get_clock_to_str())
 	stopwatch_stopped.emit()
 	stopwatch_status = StopwatchState.IDLE
 #endregion
