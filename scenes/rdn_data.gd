@@ -5,7 +5,7 @@ var activity: String
 var datetime: Dictionary
 var duration: String
 
-func _init(activity: String = "", datetime: Dictionary = {}, duration: String = "") -> void:
-	self.activity = activity
-	self.datetime = datetime
-	self.duration = duration
+func _init(_activity: String = "", _datetime: Dictionary = {}, _duration: String = "") -> void:
+	activity = _activity
+	datetime = _datetime
+	duration = _duration
