@@ -1,3 +1,7 @@
+## TEST:
+## Forse sarebbe meglio utilizzare un dizionario
+## invece di una classe specifica?
+
 class_name RDN_Data
 extends RefCounted
 

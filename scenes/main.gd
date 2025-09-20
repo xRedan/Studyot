@@ -26,7 +26,7 @@ var first_press_only: bool
 func _ready() -> void:
 	## DEBUG ##
 	RdnDataManager.load_data()
-	#RdnDataManager.print_data()
+	RdnDataManager.print_data()
 	## Variables
 	first_press_only = true
 	## Stopwatch

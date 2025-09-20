@@ -1,3 +1,7 @@
+## TODO:
+## Da rivedere i nomi delle variabili
+## e delle classi.
+
 class_name NumberClock
 extends Control
 
