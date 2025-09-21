@@ -3,7 +3,7 @@
 ## invece di una classe specifica?
 
 class_name RDN_Data
-extends RefCounted
+extends Resource
 
 var activity: String
 var datetime: Dictionary

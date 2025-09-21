@@ -28,7 +28,6 @@ class Clock:
 		_min_changed.connect(_on_min_changed)
 		_hour_changed.connect(_on_hour_changed)
 
-
 	func get_hour_str() -> String:
 		return "%02d" % hour
 	

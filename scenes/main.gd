@@ -4,14 +4,6 @@ signal stopwatch_started
 signal stopwatch_paused
 signal stopwatch_stopped
 
-enum StopwatchState {
-	IDLE,
-	ACTIVE,
-	PAUSED,
-}
-
-static var stopwatch_status: StopwatchState = StopwatchState.IDLE
-
 ## Stopwatch things
 @onready var stopwatch_text: NumberClock = $VBoxContainer/NumberClock
 @onready var stopwatch: Timer = %Stopwatch
@@ -42,18 +34,18 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	match stopwatch_status:
-		StopwatchState.IDLE:
+	match Globals.stopwatch_status:
+		Globals.StopwatchState.IDLE:
 			play_button.disabled = false
 			pause_button.disabled = true
 			reset_button.disabled = true
 		
-		StopwatchState.ACTIVE:
+		Globals.StopwatchState.ACTIVE:
 			play_button.disabled = true
 			pause_button.disabled = false
 			reset_button.disabled = false
 		
-		StopwatchState.PAUSED:
+		Globals.StopwatchState.PAUSED:
 			play_button.disabled = false
 			pause_button.disabled = true
 			reset_button.disabled = false
@@ -61,6 +53,7 @@ func _process(_delta: float) -> void:
 
 func _on_stopwatch_timeout() -> void:
 	stopwatch_text.add_time_sec(int(stopwatch.wait_time))
+	SignalBus.stopwatch_value_changed.emit(stopwatch_text.clock_values.get_clock_to_str())
 
 
 func _on_stopwatch_started() -> void:
@@ -86,14 +79,14 @@ func _on_play_button_pressed() -> void:
 		SignalBus.data_init.emit($VBoxContainer/TextEdit.text)
 		first_press_only = false
 	stopwatch_started.emit()
-	stopwatch_status = StopwatchState.ACTIVE
+	Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
 
 
 ## PAUSE BUTTON PRESSED ##
 func _on_pause_button_pressed() -> void:
 	print("PAUSE BUTTON PRESSED")
 	stopwatch_paused.emit()
-	stopwatch_status = StopwatchState.PAUSED
+	Globals.stopwatch_status = Globals.StopwatchState.PAUSED
 
 
 ## RESET BUTTON PRESSED ##
@@ -102,5 +95,5 @@ func _on_reset_button_pressed() -> void:
 	first_press_only = true
 	SignalBus.data_end.emit(stopwatch_text.clock_values.get_clock_to_str())
 	stopwatch_stopped.emit()
-	stopwatch_status = StopwatchState.IDLE
+	Globals.stopwatch_status = Globals.StopwatchState.IDLE
 #endregion
