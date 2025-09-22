@@ -1,13 +1,9 @@
-## TEST:
-## Forse sarebbe meglio utilizzare un dizionario
-## invece di una classe specifica?
-
 class_name RDN_Data
 extends Resource
 
-var activity: String
-var datetime: Dictionary
-var duration: String
+@export var activity: String
+@export var datetime: Dictionary
+@export var duration: String
 
 func _init(_activity: String = "", _datetime: Dictionary = {}, _duration: String = "") -> void:
 	activity = _activity

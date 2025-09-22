@@ -13,14 +13,8 @@ signal stopwatch_stopped
 @onready var pause_button: TextureButton = $VBoxContainer/Buttons/PauseButton
 @onready var reset_button: TextureButton = $VBoxContainer/Buttons/ResetButton
 
-var first_press_only: bool
 
 func _ready() -> void:
-	## DEBUG ##
-	RdnDataManager.load_data()
-	RdnDataManager.print_data()
-	## Variables
-	first_press_only = true
 	## Stopwatch
 	stopwatch.timeout.connect(_on_stopwatch_timeout)
 	## Internal Signals
@@ -33,6 +27,7 @@ func _ready() -> void:
 	reset_button.pressed.connect(_on_reset_button_pressed)
 
 
+## Gestisce quali pulsanti sono attivi in base allo status corrente.
 func _process(_delta: float) -> void:
 	match Globals.stopwatch_status:
 		Globals.StopwatchState.IDLE:
@@ -51,9 +46,11 @@ func _process(_delta: float) -> void:
 			reset_button.disabled = false
 
 
+## Timer di 1 secondo che al suo termine aggiorna stopwatch_text
+## ed emette un segnale che indica che il valore é stato cambiato.
 func _on_stopwatch_timeout() -> void:
-	stopwatch_text.add_time_sec(int(stopwatch.wait_time))
-	SignalBus.stopwatch_value_changed.emit(stopwatch_text.clock_values.get_clock_to_str())
+	stopwatch_text.add_second(int(stopwatch.wait_time))
+	SignalBus.stopwatch_value_changed.emit(stopwatch_text.stopwatch.get_clock_to_str())
 
 
 func _on_stopwatch_started() -> void:
@@ -67,7 +64,8 @@ func _on_stopwatch_pause() -> void:
 
 func _on_stopwatch_stopped() -> void:
 	stopwatch.stop()
-	stopwatch_text.update_time_sec(0)
+	## Reset della label
+	stopwatch_text.update_time_from_sec(0)
 
 
 #region BUTTONS SIGNALS
@@ -75,12 +73,11 @@ func _on_stopwatch_stopped() -> void:
 ## PLAY BUTTON PRESSED ##
 func _on_play_button_pressed() -> void:
 	print("PLAY BUTTON PRESSED")
-	if first_press_only:
+	## Se viene startato un nuovo timer
+	if Globals.stopwatch_status == Globals.StopwatchState.IDLE:
 		SignalBus.data_init.emit($VBoxContainer/TextEdit.text)
-		first_press_only = false
 	stopwatch_started.emit()
 	Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
-
 
 ## PAUSE BUTTON PRESSED ##
 func _on_pause_button_pressed() -> void:
@@ -88,12 +85,11 @@ func _on_pause_button_pressed() -> void:
 	stopwatch_paused.emit()
 	Globals.stopwatch_status = Globals.StopwatchState.PAUSED
 
-
 ## RESET BUTTON PRESSED ##
 func _on_reset_button_pressed() -> void:
 	print("RESET BUTTON PRESSED")
-	first_press_only = true
-	SignalBus.data_end.emit(stopwatch_text.clock_values.get_clock_to_str())
+	SignalBus.data_end.emit(stopwatch_text.stopwatch.get_clock_to_str())
 	stopwatch_stopped.emit()
 	Globals.stopwatch_status = Globals.StopwatchState.IDLE
+
 #endregion
