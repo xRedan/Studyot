@@ -75,7 +75,7 @@ func _on_play_button_pressed() -> void:
 	print("PLAY BUTTON PRESSED")
 	## Se viene startato un nuovo timer
 	if Globals.stopwatch_status == Globals.StopwatchState.IDLE:
-		SignalBus.data_init.emit($VBoxContainer/TextEdit.text)
+		SignalBus.data_init.emit(%TextEdit.text)
 	stopwatch_started.emit()
 	Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
 
