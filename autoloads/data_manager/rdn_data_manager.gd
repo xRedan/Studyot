@@ -12,6 +12,7 @@ var auto_save_timer: Timer
 
 func _ready() -> void:
 	load_data()
+	print_data()
 	_setup_auto_save(30.0)
 	SignalBus.data_init.connect(_on_data_init)
 	SignalBus.data_end.connect(_on_data_end)

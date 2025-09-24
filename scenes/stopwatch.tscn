@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://d0lnfbtyifthb"]
 
-[ext_resource type="Script" uid="uid://ljic84rlatd1" path="res://scenes/stiowatch.gd" id="1_wsdbu"]
+[ext_resource type="Script" uid="uid://ljic84rlatd1" path="res://scenes/stopwatchj.gd" id="1_wsdbu"]
 [ext_resource type="PackedScene" uid="uid://dm6kqc0pkg30t" path="res://scenes/number_clock.tscn" id="2_q7k0n"]
 [ext_resource type="Texture2D" uid="uid://ccoewtq2xc0li" path="res://resources/icons/play.png" id="3_wj0vr"]
 [ext_resource type="Texture2D" uid="uid://dia6vdoqu0ecx" path="res://resources/icons/play_off.png" id="4_mnosj"]

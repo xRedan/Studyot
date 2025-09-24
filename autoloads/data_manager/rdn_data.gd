@@ -1,6 +1,7 @@
 class_name RDN_Data
 extends Resource
 
+@export var argument: String
 @export var activity: String
 @export var datetime: Dictionary
 @export var duration: String
