@@ -4,6 +4,8 @@ signal date_confirmed
 
 const DAYS: Array[int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
+var selected_date: Dictionary = {}
+
 var calendar_grid: GridContainer
 var title_label: Label
 var confirm_button: Button
@@ -19,7 +21,6 @@ func _ready() -> void:
 	current_year = now.year
 	current_day = now.day
 	
-	date_confirmed.connect(_on_date_confirmed)
 	
 	var main_container = VBoxContainer.new()
 	add_child(main_container)
@@ -33,10 +34,6 @@ func _ready() -> void:
 	create_calendar()
 	
 	print_days(get_days_in_moth(current_month, current_year), get_first_weekday(current_month, current_year))
-
-
-func _on_date_confirmed() -> Dictionary:
-	return get_date_dict()
 
 
 func create_header(parent: VBoxContainer) -> void:
