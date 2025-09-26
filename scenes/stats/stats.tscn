@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://7rcc04awowip"]
+[gd_scene load_steps=2 format=3 uid="uid://7rcc04awowip"]
+
+[ext_resource type="Script" uid="uid://c5xtsbmc6ghps" path="res://scenes/stats/stats.gd" id="1_mxjvo"]
 
 [node name="Stats" type="Control"]
 layout_mode = 3
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mxjvo")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -16,3 +19,30 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.273717, 0.443652, 0.248964, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -29.0
+offset_right = 60.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DateButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "DATE_BUTTON"
+
+[node name="DateLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2

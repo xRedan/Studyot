@@ -1,3 +1,4 @@
+class_name RDN_DataManager
 extends Node
 
 const SAVE_PATH = "user://save.json"
@@ -38,6 +39,24 @@ func _on_auto_save_timer_timeout() -> void:
 	save_data()
 	## DEBUG
 	##print_data()
+
+
+func get_data_from_dict(_date: Dictionary) -> Array[RDN_Data]:
+	var selected_data: Array[RDN_Data] = []
+	for data in data_cache:
+		if is_date_equal(data.datetime, _date):
+			selected_data.append(data)
+	return selected_data
+
+
+func is_date_equal(_date: Dictionary, date_to_compare: Dictionary) -> bool:
+	if _date["day"] != date_to_compare["day"]:
+		return false
+	elif _date["month"] != date_to_compare["month"]:
+		return false
+	elif  _date["year"] != date_to_compare["year"]:
+		return false
+	return true
 
 
 func update_data() -> void:
@@ -99,6 +118,14 @@ func print_data() -> void:
 		print("##--ACTIVITY--DATE--DURATION--##")
 		print("##--"+ data.activity + "--##--", data.datetime, "--##" + data.duration + "--##")
 		print("##----------------------------##")
+
+
+func get_data_stats(_data: RDN_Data) -> String:
+	var str := ""
+	str += "##--ACTIVITY--DATE--DURATION--##\n"
+	str += "##--"+ _data.activity + "--##--" + str(_data.datetime) + "--##" + _data.duration + "--##" + '\n'
+	str += "##----------------------------##"
+	return str
 
 
 func add_data(_activity: String, _datatime: Dictionary, _duration: String) -> void:

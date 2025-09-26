@@ -1,6 +1,8 @@
+class_name Calendar
 extends Control
 
 signal date_confirmed
+signal date_cancelled
 
 const DAYS: Array[int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
@@ -15,14 +17,23 @@ var current_year: int
 var current_month: int
 var current_day: int
 
+
+func _init(_day: int = 20, _month: int = 10, _year: int = 2000) -> void:
+	current_day = _day
+	current_month = _month
+	current_year = _year
+
+
 func _ready() -> void:
-	var now = Time.get_datetime_dict_from_system()
-	current_month = now.month
-	current_year = now.year
-	current_day = now.day
+	setup_calendar()
+
+
+func setup_calendar() -> void:
+	var main_container := VBoxContainer.new()
+	main_container.name = "test"
 	
+	self.custom_minimum_size = Vector2(300, 300)
 	
-	var main_container = VBoxContainer.new()
 	add_child(main_container)
 	
 	create_header(main_container)
@@ -34,6 +45,8 @@ func _ready() -> void:
 	create_calendar()
 	
 	print_days(get_days_in_moth(current_month, current_year), get_first_weekday(current_month, current_year))
+	
+	print("cms" + str(main_container.get_minimum_size()))
 
 
 func create_header(parent: VBoxContainer) -> void:
@@ -50,11 +63,9 @@ func create_header(parent: VBoxContainer) -> void:
 	prev_but.pressed.connect(_on_prev_but_pressed)
 	next_but.pressed.connect(_on_next_but_pressed)
 	
-	
 	header.add_child(prev_but)
 	header.add_child(title_label)
 	header.add_child(next_but)
-	
 
 
 func create_calendar_grid(parent: VBoxContainer) -> void:
@@ -80,13 +91,17 @@ func create_action_button(parent: VBoxContainer) -> void:
 	cancel_button.text = "Cancel"
 	cancel_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	
+	cancel_button.pressed.connect(func(): date_cancelled.emit())
+	
 	action_container.add_child(confirm_button)
 	action_container.add_child(spacer)
 	action_container.add_child(cancel_button)
 
 
 func _on_confirm_button_pressed() -> void:
+	selected_date = get_date_dict()
 	date_confirmed.emit()
+	print(selected_date)
 
 
 func get_date_dict() -> Dictionary:
