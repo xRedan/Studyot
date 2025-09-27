@@ -5,13 +5,13 @@ signal stopwatch_paused
 signal stopwatch_stopped
 
 ## Stopwatch things
-@onready var stopwatch_text: NumberClock = $VBoxContainer/NumberClock
+@onready var stopwatch_text: NumberClock = %NumberClock
 @onready var stopwatch: Timer = %Stopwatch
 
 ## Buttons
-@onready var play_button: TextureButton = $VBoxContainer/Buttons/PlayButton
-@onready var pause_button: TextureButton = $VBoxContainer/Buttons/PauseButton
-@onready var reset_button: TextureButton = $VBoxContainer/Buttons/ResetButton
+@onready var play_button: TextureButton = %PlayButton
+@onready var pause_button: TextureButton = %PauseButton
+@onready var reset_button: TextureButton = %ResetButton
 
 
 func _ready() -> void:
