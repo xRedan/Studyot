@@ -10,7 +10,6 @@ signal stopwatch_stopped
 
 ## Buttons
 @onready var play_button: TextureButton = %PlayButton
-@onready var pause_button: TextureButton = %PauseButton
 @onready var reset_button: TextureButton = %ResetButton
 
 
@@ -23,7 +22,6 @@ func _ready() -> void:
 	stopwatch_stopped.connect(_on_stopwatch_stopped)
 	## Buttons
 	play_button.pressed.connect(_on_play_button_pressed)
-	pause_button.pressed.connect(_on_pause_button_pressed)
 	reset_button.pressed.connect(_on_reset_button_pressed)
 
 
@@ -31,18 +29,15 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	match Globals.stopwatch_status:
 		Globals.StopwatchState.IDLE:
-			play_button.disabled = false
-			pause_button.disabled = true
+			#play_button.disabled = false
 			reset_button.disabled = true
 		
 		Globals.StopwatchState.ACTIVE:
-			play_button.disabled = true
-			pause_button.disabled = false
+			#play_button.disabled = true
 			reset_button.disabled = false
 		
 		Globals.StopwatchState.PAUSED:
-			play_button.disabled = false
-			pause_button.disabled = true
+			#play_button.disabled = false
 			reset_button.disabled = false
 
 
@@ -54,9 +49,24 @@ func _on_stopwatch_timeout() -> void:
 
 
 func _on_stopwatch_started() -> void:
-	stopwatch.paused = false
-	stopwatch.start()
+	if Globals.stopwatch_status == Globals.StopwatchState.ACTIVE:
+		_change_button_icon("res://resources/buttons/pause_button/pause_button_normal.png", "res://resources/buttons/pause_button/pause_button_hovered.png", "res://resources/buttons/pause_button/pause_button_pressed.png")
+		stopwatch.paused = false
+		stopwatch.start()
+	elif Globals.stopwatch_status == Globals.StopwatchState.PAUSED:
+		_change_button_icon("res://resources/buttons/play_button/play_button_normal.png", "res://resources/buttons/play_button/play_button_hovered.png", "res://resources/buttons/play_button/play_button_pressed.png")
+		stopwatch.paused = true
+		stopwatch_paused.emit()
 
+
+func _change_button_icon(img_normal_path: String, img_hovered_path: String, img_pressed_path: String) -> void:
+	var normal_texture := load(img_normal_path)
+	var hovered_texture := load(img_hovered_path)
+	var pressed_texture := load(img_pressed_path)
+	
+	play_button.texture_normal = normal_texture
+	play_button.texture_hover = hovered_texture
+	play_button.texture_pressed = pressed_texture
 
 func _on_stopwatch_pause() -> void:
 	stopwatch.paused = true
@@ -72,24 +82,26 @@ func _on_stopwatch_stopped() -> void:
 
 ## PLAY BUTTON PRESSED ##
 func _on_play_button_pressed() -> void:
-	print("PLAY BUTTON PRESSED")
 	## Se viene startato un nuovo timer
 	if Globals.stopwatch_status == Globals.StopwatchState.IDLE:
+		print("INIT BUTTON PRESSED")
 		SignalBus.data_init.emit(%TextEdit.text)
+		Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
+	elif Globals.stopwatch_status == Globals.StopwatchState.ACTIVE:
+		print("PAUSE BUTTON PRESSED")
+		Globals.stopwatch_status = Globals.StopwatchState.PAUSED
+	elif Globals.stopwatch_status == Globals.StopwatchState.PAUSED:
+		print("PLAY BUTTON PRESSED")
+		Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
 	stopwatch_started.emit()
-	Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
 
-## PAUSE BUTTON PRESSED ##
-func _on_pause_button_pressed() -> void:
-	print("PAUSE BUTTON PRESSED")
-	stopwatch_paused.emit()
-	Globals.stopwatch_status = Globals.StopwatchState.PAUSED
 
 ## RESET BUTTON PRESSED ##
 func _on_reset_button_pressed() -> void:
 	print("RESET BUTTON PRESSED")
+	Globals.stopwatch_status = Globals.StopwatchState.IDLE
 	SignalBus.data_end.emit(stopwatch_text.stopwatch.get_clock_to_str())
 	stopwatch_stopped.emit()
-	Globals.stopwatch_status = Globals.StopwatchState.IDLE
+
 
 #endregion

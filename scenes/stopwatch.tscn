@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://d0lnfbtyifthb"]
+[gd_scene load_steps=26 format=4 uid="uid://d0lnfbtyifthb"]
 
 [ext_resource type="Script" uid="uid://ljic84rlatd1" path="res://scenes/stopwatchj.gd" id="1_wsdbu"]
 [ext_resource type="Shader" uid="uid://dyitqy1jctyua" path="res://resources/shaders/ocean_effect.gdshader" id="2_bmb4o"]
@@ -6,13 +6,12 @@
 [ext_resource type="Theme" uid="uid://bw540y8in40ne" path="res://resources/themes/panel_container/panel_container_theme.tres" id="2_wj0vr"]
 [ext_resource type="Theme" uid="uid://c38jtcfpcx63l" path="res://resources/themes/button_list/button_list.tres" id="3_7yi7k"]
 [ext_resource type="Theme" uid="uid://cjpl5a2cpc24y" path="res://resources/themes/text_edit/text_edit.tres" id="3_mnosj"]
-[ext_resource type="Texture2D" uid="uid://ccoewtq2xc0li" path="res://resources/icons/play.png" id="3_wj0vr"]
-[ext_resource type="Texture2D" uid="uid://dia6vdoqu0ecx" path="res://resources/icons/play_off.png" id="4_mnosj"]
-[ext_resource type="Texture2D" uid="uid://k63hilqevtas" path="res://resources/icons/pause.png" id="5_7yi7k"]
 [ext_resource type="Theme" uid="uid://bmu7rs75qyfk1" path="res://resources/themes/panel/panel.tres" id="5_bmb4o"]
-[ext_resource type="Texture2D" uid="uid://dr843ymr7dsxk" path="res://resources/icons/pause_off.png" id="6_bmb4o"]
 [ext_resource type="Texture2D" uid="uid://dxmww1yjck2qc" path="res://resources/icons/reset.png" id="7_iwfox"]
+[ext_resource type="Texture2D" uid="uid://cjjf7vpua52a6" path="res://resources/buttons/play_button/play_button_normal.png" id="8_bmb4o"]
 [ext_resource type="Texture2D" uid="uid://06ajor6bylwb" path="res://resources/icons/reset_off.png" id="8_o5atq"]
+[ext_resource type="Texture2D" uid="uid://csxvktl52wg7f" path="res://resources/buttons/play_button/play_button_pressed.png" id="9_o5atq"]
+[ext_resource type="Texture2D" uid="uid://48x07hemidl4" path="res://resources/buttons/play_button/play_button_hovered.png" id="10_jbxn6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bmb4o"]
 shader = ExtResource("2_bmb4o")
@@ -1183,8 +1182,9 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
 
 [node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(982, 300)
+custom_minimum_size = Vector2(1000, 300)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("5_bmb4o")
 
@@ -1196,10 +1196,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -313.0
-offset_top = -102.5
-offset_right = 313.0
-offset_bottom = 102.5
+offset_left = -500.0
+offset_top = -135.0
+offset_right = 500.0
+offset_bottom = 135.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -1210,42 +1210,39 @@ theme = SubResource("Theme_jbxn6")
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
 
-[node name="Buttons" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer/Buttons"]
-custom_minimum_size = Vector2(350, 100)
+[node name="Panel2" type="Panel" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("5_bmb4o")
 
-[node name="PlayButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Buttons/Panel"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 4.0
-offset_right = 104.0
-offset_bottom = 100.0
-texture_normal = ExtResource("3_wj0vr")
-texture_disabled = ExtResource("4_mnosj")
+[node name="Buttons" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="PauseButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Buttons/Panel"]
+[node name="PlayButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Panel2/Buttons"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 108.0
-offset_right = 208.0
-offset_bottom = 100.0
-texture_normal = ExtResource("5_7yi7k")
-texture_disabled = ExtResource("6_bmb4o")
+layout_mode = 2
+texture_normal = ExtResource("8_bmb4o")
+texture_pressed = ExtResource("9_o5atq")
+texture_hover = ExtResource("10_jbxn6")
 
-[node name="ResetButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Buttons/Panel"]
+[node name="ResetButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Panel2/Buttons"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 212.0
-offset_right = 312.0
-offset_bottom = 100.0
+layout_mode = 2
 texture_normal = ExtResource("7_iwfox")
 texture_disabled = ExtResource("8_o5atq")
 

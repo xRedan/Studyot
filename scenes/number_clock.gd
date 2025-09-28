@@ -7,7 +7,6 @@ enum TimeType {HOUR, MINUTE, SECOND}
 
 var stopwatch: Clock
 
-
 func _ready() -> void:
 	stopwatch = Clock.new()
 	%Hours.add_theme_color_override("font_color", font_color)
