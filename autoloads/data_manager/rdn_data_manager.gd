@@ -121,11 +121,11 @@ func print_data() -> void:
 
 
 func get_data_stats(_data: RDN_Data) -> String:
-	var str := ""
-	str += "##--ACTIVITY--DATE--DURATION--##\n"
-	str += "##--"+ _data.activity + "--##--" + str(_data.datetime) + "--##" + _data.duration + "--##" + '\n'
-	str += "##----------------------------##"
-	return str
+	var _str := ""
+	_str += "##--ACTIVITY--DATE--DURATION--##\n"
+	_str += "##--"+ _data.activity + "--##--" + str(_data.datetime) + "--##" + _data.duration + "--##" + '\n'
+	_str += "##----------------------------##"
+	return _str
 
 
 func add_data(_activity: String, _datatime: Dictionary, _duration: String) -> void:

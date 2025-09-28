@@ -1,83 +1,113 @@
-[gd_scene load_steps=2 format=3 uid="uid://dm6kqc0pkg30t"]
+[gd_scene load_steps=4 format=3 uid="uid://dm6kqc0pkg30t"]
 
 [ext_resource type="Script" uid="uid://cssckjln60lxt" path="res://scenes/number_clock.gd" id="1_v2pim"]
+[ext_resource type="FontFile" uid="uid://b4idcwj4lbe3a" path="res://resources/fonts/Now-Bold.otf" id="2_ynljb"]
+[ext_resource type="FontFile" uid="uid://bejwv7xj0ocdj" path="res://resources/fonts/Now-Regular.otf" id="3_gno6d"]
 
 [node name="NumberClock" type="Control"]
-custom_minimum_size = Vector2(626, 205)
+custom_minimum_size = Vector2(982, 273)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 626.0
 offset_bottom = 205.0
 script = ExtResource("1_v2pim")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(626, 205)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -313.0
-offset_top = -102.5
-offset_right = 313.0
-offset_bottom = 102.5
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_vertical = 0
 alignment = 1
 
-[node name="HoursContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HoursContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(176, 205)
 layout_mode = 2
 
-[node name="Hours" type="Label" parent="HBoxContainer/HoursContainer"]
+[node name="Hours" type="Label" parent="VBoxContainer/HBoxContainer/HoursContainer"]
 unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
 mouse_filter = 0
 theme_override_colors/font_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
-theme_override_font_sizes/font_size = 150
+theme_override_fonts/font = ExtResource("2_ynljb")
+theme_override_font_sizes/font_size = 200
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Points" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/HoursContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gno6d")
+theme_override_font_sizes/font_size = 25
+text = "hour"
+
+[node name="Points" type="Label" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
-theme_override_font_sizes/font_size = 150
+theme_override_fonts/font = ExtResource("2_ynljb")
+theme_override_font_sizes/font_size = 200
 text = ":"
 
-[node name="MinutesContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="MinutesContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(176, 205)
 layout_mode = 2
 
-[node name="Minutes" type="Label" parent="HBoxContainer/MinutesContainer"]
+[node name="Minutes" type="Label" parent="VBoxContainer/HBoxContainer/MinutesContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 theme_override_colors/font_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
-theme_override_font_sizes/font_size = 150
+theme_override_fonts/font = ExtResource("2_ynljb")
+theme_override_font_sizes/font_size = 200
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Points2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/MinutesContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gno6d")
+theme_override_font_sizes/font_size = 25
+text = "min"
+
+[node name="Points2" type="Label" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
-theme_override_font_sizes/font_size = 150
+theme_override_fonts/font = ExtResource("2_ynljb")
+theme_override_font_sizes/font_size = 200
 text = ":"
 
-[node name="SecondsContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="SecondsContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(176, 205)
 layout_mode = 2
 
-[node name="Seconds" type="Label" parent="HBoxContainer/SecondsContainer"]
+[node name="Seconds" type="Label" parent="VBoxContainer/HBoxContainer/SecondsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 theme_override_colors/font_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
-theme_override_font_sizes/font_size = 150
+theme_override_fonts/font = ExtResource("2_ynljb")
+theme_override_font_sizes/font_size = 200
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/SecondsContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gno6d")
+theme_override_font_sizes/font_size = 25
+text = "sec"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
