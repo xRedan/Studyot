@@ -1,6 +1,6 @@
 extends Control
 
-@onready var v_box_container: VBoxContainer = $PanelContainer/VBoxContainer
+@onready var v_box_container: VBoxContainer = %VBoxContainer
 @onready var date_button: Button = %DateButton
 @onready var date_label: Label = %DateLabel
 @onready var stats_label: Label = %StatsLabel
@@ -22,9 +22,12 @@ func _ready() -> void:
 func update_stats_label(_date: Dictionary) -> void:
 	stats_label.text = ""
 	var array_of_data := RdnDataManager.get_data_from_dict(_date)
-	
+	var tot_sum: int
 	for data in array_of_data:
-		stats_label.text += RdnDataManager.get_data_stats(data)
+		tot_sum += data["duration"]
+		#stats_label.text += data["duration"]
+	print(tot_sum)
+	stats_label.text = Globals.sec_to_string(tot_sum)
 
 
 func _on_date_confirmed() -> void:

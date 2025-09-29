@@ -84,7 +84,7 @@ func forced_save() -> void:
 
 
 ## Aggiorna "duration" ogni volta che viene aggiornato il cronometro.
-func _tmp_data_update(_duration: String) -> void:
+func _tmp_data_update(_duration: int) -> void:
 	tmp_data.duration = _duration
 
 
@@ -116,19 +116,19 @@ func _on_data_end(_end_time: String) -> void:
 func print_data() -> void:
 	for data in data_cache:
 		print("##--ACTIVITY--DATE--DURATION--##")
-		print("##--"+ data.activity + "--##--", data.datetime, "--##" + data.duration + "--##")
+		print("##--"+ data.activity + "--##--", data.datetime, "--##" + str(data.duration) + "--##")
 		print("##----------------------------##")
 
 
 func get_data_stats(_data: RDN_Data) -> String:
 	var _str := ""
 	_str += "##--ACTIVITY--DATE--DURATION--##\n"
-	_str += "##--"+ _data.activity + "--##--" + str(_data.datetime) + "--##" + _data.duration + "--##" + '\n'
+	_str += "##--"+ _data.activity + "--##--" + str(_data.datetime) + "--##" + str(_data.duration) + "--##" + '\n'
 	_str += "##----------------------------##"
 	return _str
 
 
-func add_data(_activity: String, _datatime: Dictionary, _duration: String) -> void:
+func add_data(_activity: String, _datatime: Dictionary, _duration: int) -> void:
 	if not cache_loaded:
 		load_data()
 	data_cache.push_back(RDN_Data.new(_activity, _datatime, _duration))

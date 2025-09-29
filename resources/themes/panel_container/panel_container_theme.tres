@@ -1,9 +1,9 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://bw540y8in40ne"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1mvf"]
+bg_color = Color(0.24313726, 0.24705882, 0.27058825, 1)
 draw_center = false
-border_width_top = 4
-border_color = Color(0.4862745, 0.4862745, 0.4862745, 1)
+border_color = Color(0.24313726, 0.24705882, 0.27058825, 1)
 anti_aliasing_size = 0.5
 
 [resource]

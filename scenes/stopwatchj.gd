@@ -25,38 +25,30 @@ func _ready() -> void:
 	reset_button.pressed.connect(_on_reset_button_pressed)
 
 
-## Gestisce quali pulsanti sono attivi in base allo status corrente.
+## DA TOGLIERE FACENDO UN SISTEMA CHE SI BASA SU I SEGNALI
 func _process(_delta: float) -> void:
-	match Globals.stopwatch_status:
-		Globals.StopwatchState.IDLE:
-			#play_button.disabled = false
-			reset_button.disabled = true
-		
-		Globals.StopwatchState.ACTIVE:
-			#play_button.disabled = true
-			reset_button.disabled = false
-		
-		Globals.StopwatchState.PAUSED:
-			#play_button.disabled = false
-			reset_button.disabled = false
+	pass
 
 
 ## Timer di 1 secondo che al suo termine aggiorna stopwatch_text
 ## ed emette un segnale che indica che il valore é stato cambiato.
 func _on_stopwatch_timeout() -> void:
 	stopwatch_text.add_second(int(stopwatch.wait_time))
-	SignalBus.stopwatch_value_changed.emit(stopwatch_text.stopwatch.get_clock_to_str())
+	SignalBus.stopwatch_value_changed.emit(stopwatch_text.stopwatch.get_clock_to_sec())
 
 
 func _on_stopwatch_started() -> void:
 	if Globals.stopwatch_status == Globals.StopwatchState.ACTIVE:
-		_change_button_icon("res://resources/buttons/pause_button/pause_button_normal.png", "res://resources/buttons/pause_button/pause_button_hovered.png", "res://resources/buttons/pause_button/pause_button_pressed.png")
 		stopwatch.paused = false
 		stopwatch.start()
-	elif Globals.stopwatch_status == Globals.StopwatchState.PAUSED:
+	update_button_icon()
+
+
+func update_button_icon() -> void:
+	if Globals.stopwatch_status == Globals.StopwatchState.ACTIVE:
+		_change_button_icon("res://resources/buttons/pause_button/pause_button_normal.png", "res://resources/buttons/pause_button/pause_button_hovered.png", "res://resources/buttons/pause_button/pause_button_pressed.png")
+	else:
 		_change_button_icon("res://resources/buttons/play_button/play_button_normal.png", "res://resources/buttons/play_button/play_button_hovered.png", "res://resources/buttons/play_button/play_button_pressed.png")
-		stopwatch.paused = true
-		stopwatch_paused.emit()
 
 
 func _change_button_icon(img_normal_path: String, img_hovered_path: String, img_pressed_path: String) -> void:
@@ -68,32 +60,37 @@ func _change_button_icon(img_normal_path: String, img_hovered_path: String, img_
 	play_button.texture_hover = hovered_texture
 	play_button.texture_pressed = pressed_texture
 
+
 func _on_stopwatch_pause() -> void:
 	stopwatch.paused = true
+	update_button_icon()
 
 
 func _on_stopwatch_stopped() -> void:
 	stopwatch.stop()
 	## Reset della label
 	stopwatch_text.update_time_from_sec(0)
+	%TextEdit.text = ""
+	reset_button.disabled = true
+	update_button_icon()
 
 
 #region BUTTONS SIGNALS
 
 ## PLAY BUTTON PRESSED ##
 func _on_play_button_pressed() -> void:
-	## Se viene startato un nuovo timer
-	if Globals.stopwatch_status == Globals.StopwatchState.IDLE:
-		print("INIT BUTTON PRESSED")
-		SignalBus.data_init.emit(%TextEdit.text)
-		Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
-	elif Globals.stopwatch_status == Globals.StopwatchState.ACTIVE:
-		print("PAUSE BUTTON PRESSED")
-		Globals.stopwatch_status = Globals.StopwatchState.PAUSED
-	elif Globals.stopwatch_status == Globals.StopwatchState.PAUSED:
-		print("PLAY BUTTON PRESSED")
-		Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
-	stopwatch_started.emit()
+	match Globals.stopwatch_status:
+		Globals.StopwatchState.IDLE:
+			SignalBus.data_init.emit(%TextEdit.text)
+			Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
+			stopwatch_started.emit()
+		Globals.StopwatchState.PAUSED:
+			Globals.stopwatch_status = Globals.StopwatchState.ACTIVE
+			stopwatch_started.emit()
+		Globals.StopwatchState.ACTIVE:
+			Globals.stopwatch_status = Globals.StopwatchState.PAUSED
+			stopwatch_paused.emit()
+	reset_button.disabled = false
 
 
 ## RESET BUTTON PRESSED ##

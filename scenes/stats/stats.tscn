@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://7rcc04awowip"]
+[gd_scene load_steps=5 format=3 uid="uid://7rcc04awowip"]
 
 [ext_resource type="Script" uid="uid://c5xtsbmc6ghps" path="res://scenes/stats/stats.gd" id="1_mxjvo"]
-[ext_resource type="Theme" uid="uid://bw540y8in40ne" path="res://resources/themes/panel_container/panel_container_theme.tres" id="2_goj67"]
+[ext_resource type="Theme" uid="uid://bmu7rs75qyfk1" path="res://resources/themes/panel/panel.tres" id="3_vbiqk"]
+
+[sub_resource type="Gradient" id="Gradient_7yi7k"]
+colors = PackedColorArray(0.17254902, 0.1764706, 0.19607843, 1, 0.17254902, 0.1764706, 0.19607843, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nlaeq"]
+gradient = SubResource("Gradient_7yi7k")
 
 [node name="Stats" type="Control"]
 layout_mode = 3
@@ -12,32 +18,90 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mxjvo")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="StaticBackground" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_goj67")
+texture = SubResource("GradientTexture1D_nlaeq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="Edge" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 5.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="Edge"]
+custom_minimum_size = Vector2(1280, 4)
+layout_mode = 2
+color = Color(0.19607843, 0.2, 0.22352941, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Edge"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.24313726, 0.24705882, 0.27058825, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 799.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_top = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="DateButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="DateButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "DATE_BUTTON"
 
-[node name="DateLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="DateLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 
-[node name="StatsLabel" type="Label" parent="PanelContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(720, 600)
 layout_mode = 2
+size_flags_horizontal = 4
+draw_focus_border = true
+horizontal_scroll_mode = 0
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(720, 1080)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_vbiqk")
+
+[node name="StatsLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+autowrap_mode = 3
+clip_text = true

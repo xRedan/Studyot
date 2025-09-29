@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6awgifrt2xnl"
-path="res://.godot/imported/play_button_focused.png-64842b79bdcb48751d8b1dc7ffcc9418.ctex"
+uid="uid://gb5v5143d6ym"
+path="res://.godot/imported/reset_button_pressed.png-7c4065349bd124e22acdf5d980852df9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/buttons/play_button/play_button_focused.png"
-dest_files=["res://.godot/imported/play_button_focused.png-64842b79bdcb48751d8b1dc7ffcc9418.ctex"]
+source_file="res://resources/buttons/reset_button/reset_button_pressed.png"
+dest_files=["res://.godot/imported/reset_button_pressed.png-7c4065349bd124e22acdf5d980852df9.ctex"]
 
 [params]
 

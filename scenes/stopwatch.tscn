@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://d0lnfbtyifthb"]
+[gd_scene load_steps=29 format=4 uid="uid://d0lnfbtyifthb"]
 
 [ext_resource type="Script" uid="uid://ljic84rlatd1" path="res://scenes/stopwatchj.gd" id="1_wsdbu"]
 [ext_resource type="Shader" uid="uid://dyitqy1jctyua" path="res://resources/shaders/ocean_effect.gdshader" id="2_bmb4o"]
@@ -7,18 +7,19 @@
 [ext_resource type="Theme" uid="uid://c38jtcfpcx63l" path="res://resources/themes/button_list/button_list.tres" id="3_7yi7k"]
 [ext_resource type="Theme" uid="uid://cjpl5a2cpc24y" path="res://resources/themes/text_edit/text_edit.tres" id="3_mnosj"]
 [ext_resource type="Theme" uid="uid://bmu7rs75qyfk1" path="res://resources/themes/panel/panel.tres" id="5_bmb4o"]
-[ext_resource type="Texture2D" uid="uid://dxmww1yjck2qc" path="res://resources/icons/reset.png" id="7_iwfox"]
 [ext_resource type="Texture2D" uid="uid://cjjf7vpua52a6" path="res://resources/buttons/play_button/play_button_normal.png" id="8_bmb4o"]
-[ext_resource type="Texture2D" uid="uid://06ajor6bylwb" path="res://resources/icons/reset_off.png" id="8_o5atq"]
 [ext_resource type="Texture2D" uid="uid://csxvktl52wg7f" path="res://resources/buttons/play_button/play_button_pressed.png" id="9_o5atq"]
 [ext_resource type="Texture2D" uid="uid://48x07hemidl4" path="res://resources/buttons/play_button/play_button_hovered.png" id="10_jbxn6"]
+[ext_resource type="Texture2D" uid="uid://s87j8xpqj7bq" path="res://resources/buttons/reset_button/reset_button_normal.png" id="11_bmb4o"]
+[ext_resource type="Texture2D" uid="uid://b8ll5cleixlfl" path="res://resources/buttons/reset_button/reset_button_hovered.png" id="12_iwfox"]
+[ext_resource type="Texture2D" uid="uid://gb5v5143d6ym" path="res://resources/buttons/reset_button/reset_button_pressed.png" id="13_o5atq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bmb4o"]
 shader = ExtResource("2_bmb4o")
 shader_parameter/bottom_color = Color(0.69411767, 0.92156863, 0.8352941, 1)
 shader_parameter/top_color = Color(0, 0.29803923, 0.24705882, 1)
-shader_parameter/wave_amp = 0.10000000475
-shader_parameter/wave_size = 1.50000002375
+shader_parameter/wave_amp = 0.066000003135
+shader_parameter/wave_size = 1.810000038475
 shader_parameter/wave_time_mul = 0.10000000149012
 shader_parameter/total_phases = 4
 
@@ -28,6 +29,12 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_o5atq"]
 gradient = SubResource("Gradient_iwfox")
+
+[sub_resource type="Gradient" id="Gradient_bmb4o"]
+colors = PackedColorArray(0.17254902, 0.1764706, 0.19607843, 1, 0.17254902, 0.1764706, 0.19607843, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bmb4o"]
+gradient = SubResource("Gradient_bmb4o")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tbgi4"]
 
@@ -1123,7 +1130,8 @@ metadata/_edit_horizontal_guides_ = [0.0, 720.0, 360.0]
 metadata/_edit_vertical_guides_ = [640.0]
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="ShaderBackground" type="TextureRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_bmb4o")
 layout_mode = 1
 anchors_preset = 15
@@ -1132,6 +1140,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_o5atq")
+
+[node name="StaticBackground" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_bmb4o")
+
+[node name="Edge" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="Edge"]
+custom_minimum_size = Vector2(1280, 4)
+layout_mode = 2
+color = Color(0.19607843, 0.2, 0.22352941, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Edge"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.24313726, 0.24705882, 0.27058825, 1)
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -1147,6 +1182,7 @@ custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_constants/separation = 8
 
 [node name="HSeparator3" type="HSeparator" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -1155,25 +1191,32 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 12
 
 [node name="ItemList" type="OptionButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource("3_7yi7k")
 selected = 0
 item_count = 3
-popup/item_0/text = "M1"
+popup/item_0/text = "Study"
 popup/item_0/id = 0
-popup/item_1/text = "M2"
+popup/item_1/text = "Work"
 popup/item_1/id = 1
-popup/item_2/text = "M3"
+popup/item_2/text = "Other"
 popup/item_2/id = 2
 
 [node name="TextEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 50)
+custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource("3_mnosj")
-placeholder_text = "DESCRIPTION HERE"
+placeholder_text = "Write here!"
 max_length = 33
 caret_blink = true
 
@@ -1182,7 +1225,7 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
 
 [node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1000, 300)
+custom_minimum_size = Vector2(1100, 280)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1205,13 +1248,14 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = SubResource("Theme_jbxn6")
+font_color = Color(1, 1, 1, 1)
 
 [node name="HSeparator4" type="HSeparator" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
 
 [node name="Panel2" type="Panel" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(300, 125)
+custom_minimum_size = Vector2(180, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1224,10 +1268,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -50.0
-offset_right = 100.0
-offset_bottom = 50.0
+offset_left = -58.0
+offset_top = -28.0
+offset_right = 58.0
+offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -1236,15 +1280,23 @@ size_flags_vertical = 4
 [node name="PlayButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Panel2/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture_normal = ExtResource("8_bmb4o")
 texture_pressed = ExtResource("9_o5atq")
 texture_hover = ExtResource("10_jbxn6")
+stretch_mode = 3
 
 [node name="ResetButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Panel2/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-texture_normal = ExtResource("7_iwfox")
-texture_disabled = ExtResource("8_o5atq")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disabled = true
+texture_normal = ExtResource("11_bmb4o")
+texture_pressed = ExtResource("12_iwfox")
+texture_hover = ExtResource("12_iwfox")
+texture_disabled = ExtResource("13_o5atq")
 
 [node name="Stopwatch" type="Timer" parent="PanelContainer"]
 unique_name_in_owner = true
