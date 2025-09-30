@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://7rcc04awowip"]
+[gd_scene load_steps=7 format=3 uid="uid://7rcc04awowip"]
 
 [ext_resource type="Script" uid="uid://c5xtsbmc6ghps" path="res://scenes/stats/stats.gd" id="1_mxjvo"]
+[ext_resource type="FontFile" uid="uid://dknbef7e6tj72" path="res://resources/fonts/Roboto/static/Roboto-Regular.ttf" id="3_nlaeq"]
 [ext_resource type="Theme" uid="uid://bmu7rs75qyfk1" path="res://resources/themes/panel/panel.tres" id="3_vbiqk"]
 
 [sub_resource type="Gradient" id="Gradient_7yi7k"]
@@ -8,6 +9,8 @@ colors = PackedColorArray(0.17254902, 0.1764706, 0.19607843, 1, 0.17254902, 0.17
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_nlaeq"]
 gradient = SubResource("Gradient_7yi7k")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_goj67"]
 
 [node name="Stats" type="Control"]
 layout_mode = 3
@@ -27,81 +30,150 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_nlaeq")
 
-[node name="Edge" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 5.0
-grow_horizontal = 2
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_goj67")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ColorRect" type="ColorRect" parent="Edge"]
+[node name="Edge" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/VBoxContainer/Edge"]
 custom_minimum_size = Vector2(1280, 4)
 layout_mode = 2
 color = Color(0.19607843, 0.2, 0.22352941, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Edge"]
+[node name="ColorRect2" type="ColorRect" parent="PanelContainer/VBoxContainer/Edge"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 color = Color(0.24313726, 0.24705882, 0.27058825, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 799.0
-grow_horizontal = 2
-theme_override_constants/margin_top = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-clip_contents = true
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1280, 715)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/margin_top = 12
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="DateButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "DATE_BUTTON"
-
-[node name="DateLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(720, 600)
-layout_mode = 2
-size_flags_horizontal = 4
 draw_focus_border = true
 horizontal_scroll_mode = 0
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
 clip_contents = true
-custom_minimum_size = Vector2(720, 1080)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/margin_top = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="TabBar" type="TabBar" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+current_tab = 0
+clip_tabs = false
+tab_count = 2
+tab_0/title = "Day"
+tab_1/title = "Manual"
+
+[node name="DaySelection" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="DayButton" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/DaySelection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Date"
+
+[node name="DayLine" type="LineEdit" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/DaySelection"]
+unique_name_in_owner = true
+layout_mode = 2
+editable = false
+expand_to_text_length = true
+
+[node name="ManualSelection" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="DateFrom" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/ManualSelection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "From"
+
+[node name="DateFromLine" type="LineEdit" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/ManualSelection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "20/10/2000"
+editable = false
+expand_to_text_length = true
+
+[node name="ToButton" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/ManualSelection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "To"
+
+[node name="DateToLine" type="LineEdit" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/ManualSelection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "30/09/2025"
+editable = false
+expand_to_text_length = true
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(1080, 540)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("3_vbiqk")
 
-[node name="StatsLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/Panel"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel"]
+custom_minimum_size = Vector2(720, 360)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-autowrap_mode = 3
-clip_text = true
+
+[node name="StatsLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(720, 360)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("3_nlaeq")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true

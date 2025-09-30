@@ -14,7 +14,7 @@ gradient = SubResource("Gradient_0x65p")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bx3hb"]
 shader = ExtResource("2_enerf")
 shader_parameter/blur_radius = 8
-shader_parameter/blur_scale = 1.5000000712500001
+shader_parameter/blur_scale = 1.50000007125
 shader_parameter/darkness = 0.8
 shader_parameter/fade_direction = 0
 shader_parameter/fade_cutoff = 1.0
@@ -55,6 +55,7 @@ texture = SubResource("GradientTexture1D_6a1y6")
 metadata/_edit_lock_ = true
 
 [node name="GausianBlur" type="TextureRect" parent="Effects" groups=["effects"]]
+visible = false
 material = SubResource("ShaderMaterial_bx3hb")
 anchors_preset = 15
 anchor_right = 1.0

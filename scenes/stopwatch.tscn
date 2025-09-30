@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://d0lnfbtyifthb"]
+[gd_scene load_steps=28 format=4 uid="uid://d0lnfbtyifthb"]
 
 [ext_resource type="Script" uid="uid://ljic84rlatd1" path="res://scenes/stopwatchj.gd" id="1_wsdbu"]
 [ext_resource type="Shader" uid="uid://dyitqy1jctyua" path="res://resources/shaders/ocean_effect.gdshader" id="2_bmb4o"]
@@ -16,11 +16,11 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bmb4o"]
 shader = ExtResource("2_bmb4o")
-shader_parameter/bottom_color = Color(0.69411767, 0.92156863, 0.8352941, 1)
-shader_parameter/top_color = Color(0, 0.29803923, 0.24705882, 1)
-shader_parameter/wave_amp = 0.066000003135
-shader_parameter/wave_size = 1.810000038475
-shader_parameter/wave_time_mul = 0.10000000149012
+shader_parameter/bottom_color = Color(0.13276502, 0.13556677, 0.15520829, 1)
+shader_parameter/top_color = Color(0.3044102, 0.3087265, 0.33890414, 1)
+shader_parameter/wave_amp = 0.07200000342
+shader_parameter/wave_size = 1.0
+shader_parameter/wave_time_mul = 0.29700001084762
 shader_parameter/total_phases = 4
 
 [sub_resource type="Gradient" id="Gradient_iwfox"]
@@ -1116,8 +1116,6 @@ LineEdit/styles/focus = SubResource("StyleBoxFlat_bmb4o")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_iwfox")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_o5atq")
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_o6xl0"]
-
 [node name="Stopwatch" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -1130,6 +1128,10 @@ metadata/_edit_horizontal_guides_ = [0.0, 720.0, 360.0]
 metadata/_edit_vertical_guides_ = [640.0]
 metadata/_edit_lock_ = true
 
+[node name="Stopwatch" type="Timer" parent="."]
+unique_name_in_owner = true
+ignore_time_scale = true
+
 [node name="ShaderBackground" type="TextureRect" parent="."]
 visible = false
 material = SubResource("ShaderMaterial_bmb4o")
@@ -1139,6 +1141,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(640, 360)
 texture = SubResource("GradientTexture1D_o5atq")
 
 [node name="StaticBackground" type="TextureRect" parent="."]
@@ -1150,24 +1153,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_bmb4o")
 
-[node name="Edge" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 4.0
-grow_horizontal = 2
-theme_override_constants/separation = 0
-
-[node name="ColorRect" type="ColorRect" parent="Edge"]
-custom_minimum_size = Vector2(1280, 4)
-layout_mode = 2
-color = Color(0.19607843, 0.2, 0.22352941, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="Edge"]
-custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
-color = Color(0.24313726, 0.24705882, 0.27058825, 1)
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -1177,11 +1162,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_wj0vr")
 
+[node name="Edge" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/Edge"]
+custom_minimum_size = Vector2(1280, 4)
+layout_mode = 2
+color = Color(0.19607843, 0.2, 0.22352941, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="PanelContainer/Edge"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.24313726, 0.24705882, 0.27058825, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_constants/separation = 8
 
 [node name="HSeparator3" type="HSeparator" parent="PanelContainer/VBoxContainer"]
@@ -1225,14 +1226,13 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tbgi4")
 
 [node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1100, 280)
+custom_minimum_size = Vector2(1000, 280)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("5_bmb4o")
 
-[node name="NumberClock" parent="PanelContainer/VBoxContainer/Panel" instance=ExtResource("2_q7k0n")]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/Panel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1240,11 +1240,16 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -500.0
-offset_top = -135.0
+offset_top = -140.0
 offset_right = 500.0
-offset_bottom = 135.0
+offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_top = 30
+
+[node name="NumberClock" parent="PanelContainer/VBoxContainer/Panel/MarginContainer" instance=ExtResource("2_q7k0n")]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = SubResource("Theme_jbxn6")
@@ -1297,13 +1302,3 @@ texture_normal = ExtResource("11_bmb4o")
 texture_pressed = ExtResource("12_iwfox")
 texture_hover = ExtResource("12_iwfox")
 texture_disabled = ExtResource("13_o5atq")
-
-[node name="Stopwatch" type="Timer" parent="PanelContainer"]
-unique_name_in_owner = true
-ignore_time_scale = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PanelContainer"]
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_o6xl0")
-}

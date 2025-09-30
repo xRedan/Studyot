@@ -4,9 +4,12 @@ extends Control
 signal date_confirmed
 signal date_cancelled
 
+enum DateType {DAY, WEEK, MONTH}
+
 const DAYS: Array[int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 var selected_date: Dictionary = {}
+var selected_date_type: DateType
 
 var calendar_grid: GridContainer
 var title_label: Label
@@ -30,7 +33,6 @@ func _ready() -> void:
 
 func setup_calendar() -> void:
 	var main_container := VBoxContainer.new()
-	main_container.name = "test"
 	
 	self.custom_minimum_size = Vector2(300, 300)
 	
@@ -54,9 +56,9 @@ func create_header(parent: VBoxContainer) -> void:
 	parent.add_child(header)
 	
 	var prev_but: Button = Button.new()
-	prev_but.text = "<-"
+	prev_but.text = "◀"
 	var next_but: Button = Button.new()
-	next_but.text = "->"
+	next_but.text = "▶"
 	title_label = Label.new()
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
@@ -70,7 +72,10 @@ func create_header(parent: VBoxContainer) -> void:
 
 func create_calendar_grid(parent: VBoxContainer) -> void:
 	calendar_grid = GridContainer.new()
-	calendar_grid.columns = 7
+	if selected_date_type == DateType.MONTH:
+		calendar_grid.columns = 6
+	else:
+		calendar_grid.columns = 7
 	parent.add_child(calendar_grid)
 
 
@@ -148,6 +153,13 @@ func print_days(days_in_month: int, first_weekday: int) -> void:
 			first_weekday += 1
 
 
+func fill_calendar_grid_month() -> void:
+	var month_names: Array[String] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+	for month in month_names.size():
+		var button = create_month_button(month_names[month], month+1)
+		calendar_grid.add_child(button)
+
+
 func fill_calendar_grid(days_in_month: int, first_weekday: int) -> void:
 	var day_names: Array[String] = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
 	
@@ -178,17 +190,35 @@ func create_day_button(day: int) -> Button:
 	return button
 
 
+func create_month_button(month: String, imonth: int) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = Vector2(70, 30)
+	button.text = month
+	
+	button.pressed.connect(_on_month_selected.bind(imonth))
+	
+	return button
+
+
 func create_calendar() -> void:
 	update_title()
 	
 	clear_grid()
 	
-	fill_calendar_grid(get_days_in_moth(current_month, current_year), get_first_weekday(current_month, current_year))
-
+	match selected_date_type:
+		DateType.DAY:
+			fill_calendar_grid(get_days_in_moth(current_month, current_year), get_first_weekday(current_month, current_year))
+		DateType.MONTH:
+			fill_calendar_grid_month()
 
 func update_title() -> void:
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.text = str(current_day) + "/" + str(current_month) + "/" + str(current_year)
+	
+	match selected_date_type:
+		DateType.DAY:
+			title_label.text = str(current_day) + "/" + str(current_month) + "/" + str(current_year)
+		DateType.MONTH:
+			title_label.text = str(current_year)
 
 
 func clear_grid() -> void:
@@ -197,28 +227,39 @@ func clear_grid() -> void:
 	day_buttons.clear()
 
 
-func _on_next_but_pressed() -> void:
-	current_month += 1
-	if current_month == 13:
-		current_month = 1
-		current_year += 1
-	
-	current_day = 1
-	
-	create_calendar()
-
-
 func _on_day_selected(day: int) -> void:
 	current_day = day
 	update_title()
 
 
+func _on_month_selected(month: int) -> void:
+	print(month)
+	current_month = month
+	update_title()
+
+
+func _on_next_but_pressed() -> void:
+	match selected_date_type:
+		DateType.DAY:
+			current_month += 1
+			if current_month == 13:
+				current_month = 1
+				current_year += 1
+			current_day = 1
+		DateType.MONTH:
+			current_year += 1
+	create_calendar()
+
+
 func _on_prev_but_pressed() -> void:
-	current_month -= 1
-	if current_month == 0:
-		current_month = 12
-		current_year -= 1
-	
-	current_day = 1
+	match selected_date_type:
+		DateType.DAY:
+			current_month -= 1
+			if current_month == 0:
+				current_month = 12
+				current_year -= 1
+			current_day = 1
+		DateType.MONTH:
+			current_year -= 1
 	
 	create_calendar()

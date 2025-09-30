@@ -27,7 +27,7 @@ alignment = 1
 [node name="HoursContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 200)
 layout_mode = 2
-theme_override_constants/separation = -5
+theme_override_constants/separation = -25
 
 [node name="Hours" type="Label" parent="VBoxContainer/HBoxContainer/HoursContainer"]
 unique_name_in_owner = true
@@ -60,7 +60,7 @@ text = ":"
 [node name="MinutesContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 200)
 layout_mode = 2
-theme_override_constants/separation = -5
+theme_override_constants/separation = -25
 
 [node name="Minutes" type="Label" parent="VBoxContainer/HBoxContainer/MinutesContainer"]
 unique_name_in_owner = true
@@ -95,7 +95,7 @@ text = ":"
 [node name="SecondsContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 200)
 layout_mode = 2
-theme_override_constants/separation = -5
+theme_override_constants/separation = -25
 
 [node name="Seconds" type="Label" parent="VBoxContainer/HBoxContainer/SecondsContainer"]
 unique_name_in_owner = true
