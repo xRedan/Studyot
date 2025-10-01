@@ -94,6 +94,7 @@ tab_1/title = "Manual"
 
 [node name="DaySelection" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 
@@ -110,7 +111,6 @@ expand_to_text_length = true
 
 [node name="ManualSelection" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -141,6 +141,11 @@ text = "30/09/2025"
 editable = false
 expand_to_text_length = true
 
+[node name="ConfirmButton" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/ManualSelection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Confirm"
+
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
@@ -154,26 +159,24 @@ size_flags_vertical = 4
 theme = ExtResource("3_vbiqk")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel"]
-custom_minimum_size = Vector2(720, 360)
+custom_minimum_size = Vector2(720, 540)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -360.0
+offset_right = 360.0
+offset_bottom = 360.0
 grow_horizontal = 2
-grow_vertical = 2
 
 [node name="StatsLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(720, 360)
+custom_minimum_size = Vector2(720, 540)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_fonts/normal_font = ExtResource("3_nlaeq")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
 bbcode_enabled = true

@@ -49,7 +49,29 @@ func get_data_from_dict(_date: Dictionary) -> Array[RDN_Data]:
 	return selected_data
 
 
+func get_range_data_from_dict(_from: Dictionary, _to: Dictionary) -> Array[RDN_Data]:
+	var selected_data: Array[RDN_Data] = []
+	for data in data_cache:
+		if is_date_in_range(data.datetime, _from, _to):
+			print("VERO RANGE DATA FROM")
+			selected_data.append(data)
+	return selected_data
+
+
+func is_date_in_range(_date: Dictionary, _from: Dictionary, _to: Dictionary) -> bool:
+	print("Date: ", _date)
+	print("From: ", _from)
+	print("To: ", _to)
+	if _date["day"] >= _from["day"] and _date["day"] <= _to["day"]:
+		if _date["month"] >= _from["month"] and _date["month"] <= _to["month"]:
+			if _date["year"] >= _from["year"] and _date["year"] <= _to["year"]:
+				return true
+	return false
+
+
 func is_date_equal(_date: Dictionary, date_to_compare: Dictionary) -> bool:
+	if not date_to_compare.has("day") or not date_to_compare.has("month") or not date_to_compare.has("year"):
+		return false
 	if _date["day"] != date_to_compare["day"]:
 		return false
 	elif _date["month"] != date_to_compare["month"]:

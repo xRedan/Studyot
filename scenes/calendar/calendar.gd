@@ -20,7 +20,6 @@ var current_year: int
 var current_month: int
 var current_day: int
 
-
 func _init(_day: int = 20, _month: int = 10, _year: int = 2000) -> void:
 	current_day = _day
 	current_month = _month
